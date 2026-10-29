@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0A2864">
+<title>ASIUM Pub-Quiz</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="offline" id="offline">Verbindung weg – versuche neu zu verbinden …</div>
+<div class="ph">
+  <div class="ph-top"><img src="img/logo.png" alt="ASIUM"><div><div class="k">PUB-QUIZ</div><div class="t">Außen- und Sicherheitspolitik</div></div></div>
+  <div id="join" hidden>
+    <h1>Willkommen beim <span class="mag">PUB-QUIZ</span></h1>
+    <p>Meldet euer Team an. Eine Person reicht – weitere Handys können danach beitreten.</p>
+    <form id="jform" autocomplete="off">
+      <input class="field" id="jname" maxlength="40" placeholder="Euer Teamname" enterkeyhint="go">
+      <button class="btn pri big" type="submit">Team anmelden</button>
+    </form>
+    <div id="jclosed" class="small" hidden>Neue Teams sind gerade geschlossen. Ihr könnt einem bestehenden Team beitreten.</div>
+    <div class="sep">ODER BESTEHENDEM TEAM BEITRETEN</div>
+    <div class="tlist" id="jteams"></div>
+  </div>
+  <div id="game" hidden></div>
+  <div class="foot2" id="foot" hidden><a href="#" id="leave">Team wechseln</a><span class="muted">ASIUM · Uni Münster</span></div>
+</div>
+<script src="icons.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script src="db.js"></script>
+<script src="online.js"></script>
+<script src="fx.js"></script>
+<script src="team.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#061B47">
+<title>ASIUM Pub-Quiz – Moderation</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="offline" id="offline">Verbindung zum Quiz-Server unterbrochen …</div>
+<div id="pinGate" class="pinwrap" hidden>
+  <img src="img/logo.png" alt="" style="width:80px">
+  <h2>Moderation</h2>
+  <p class="soft">PIN eingeben (steht im Terminal beim Start).</p>
+  <input class="field" id="pinIn" inputmode="numeric" autocomplete="off" style="text-align:center">
+  <button class="btn pri big" id="pinBtn">Öffnen</button>
+</div>
+<div class="ho" id="app" hidden>
+  <div class="hbar">
+    <div class="hrow">
+      <button class="nav" id="prev" title="Zurück (←)"></button>
+      <div class="cur"><div class="lbl" id="lbl"></div><div class="st" id="st"></div></div>
+      <button class="nav next" id="next" title="Weiter (→)"></button>
+    </div>
+    <div class="trow" id="trow"></div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="main"></div>
+</div>
+<script src="icons.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script src="flow.js"></script>
+<script src="engine.js"></script>
+<script src="db.js"></script>
+<script src="online.js"></script>
+<script src="quizmodel.js"></script>
+<script src="editor.js"></script>
+<script src="host.js"></script>
+</body>
+</html>
