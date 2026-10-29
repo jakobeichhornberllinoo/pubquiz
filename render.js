@@ -159,12 +159,19 @@
   function boardGrid(quiz, state) {
     // Symbol: eigenes, sonst passend zum Schlüssel oder zum Kartentyp
     const sym = (c) => [c.icon, c.key, { who: 'who', tf: 'myth' }[(c.cards[0] || {}).type]].find((k) => k && k in window.ICONS) || 'bolt';
-    return `<div class="board" style="grid-template-columns:repeat(${Math.max(1, quiz.buzzer.length)}, 1fr)">${quiz.buzzer.map((c) => `<div class="bcol"><div class="bhead"><span class="circ mag">${icon(sym(c))}</span><b>${esc(c.name)}</b></div>
+    // Mehr als 3 Karten je Spalte: kleiner setzen. Alle Karten gleich viel wert (z. B. Lightning Round): fortlaufend nummerieren.
+    const all = quiz.buzzer.flatMap((c) => c.cards);
+    const same = all.length > 1 && all.every((cd) => cd.pts === all[0].pts);
+    const rows = Math.max(0, ...quiz.buzzer.map((c) => c.cards.length));
+    let seq = 0;
+    return `<div class="board ${rows > 3 ? 'compact' : ''}" style="grid-template-columns:repeat(${Math.max(1, quiz.buzzer.length)}, 1fr)">${quiz.buzzer.map((c) => `<div class="bcol"><div class="bhead"><span class="circ mag">${icon(sym(c))}</span><b>${esc(c.name)}</b></div>
       ${c.cards.map((cd, i) => {
         const key = `b:${c.key}:${i}`;
         const u = state.used[key];
+        seq++;
         if (u) return `<div class="bcard used" data-card="${key}"><span>${u.team ? icon('check') : '–'}</span><small>${u.team ? esc(window.C.teamName(state, u.team)) : 'niemand'}</small></div>`;
-        return `<div class="bcard" data-card="${key}"><b>${cd.pts}</b><small>${cd.pts === 1 ? 'PUNKT' : 'PUNKTE'}</small></div>`;
+        return same ? `<div class="bcard" data-card="${key}"><b>${seq}</b><small>${cd.pts} ${cd.pts === 1 ? 'PUNKT' : 'PUNKTE'}</small></div>`
+          : `<div class="bcard" data-card="${key}"><b>${cd.pts}</b><small>${cd.pts === 1 ? 'PUNKT' : 'PUNKTE'}</small></div>`;
       }).join('')}</div>`).join('')}</div>`;
   }
   function miniScore(quiz, state) {
@@ -245,7 +252,12 @@
       ${state.step >= 4 ? rva('sp', `<div class="special"><b>SONDERPREIS</b><span>${esc(aw.special)}${last && groups.length > 3 ? ` – <strong>${esc(last.name)}</strong>` : ''}</span></div>`) : ''}`;
   };
 
-  S.thanks = ({ quiz }) => { const o = quiz.intro.outro; return `<div class="center-wrap"><img class="cheers sm" src="img/cheers.png" alt=""><div class="huge">${esc(o.title)}</div><div class="sky b tsub2">${esc(o.sub)}</div><div class="soft tsub3">${esc(o.meta)}</div></div>`; };
+  // Danke-Folie; mit eigenem Bild (z. B. QR-Code) steht es groß rechts neben dem Text
+  S.thanks = ({ quiz }) => {
+    const o = quiz.intro.outro;
+    if (o.img) return `<div class="thanks-img"><div class="ti-text"><div class="huge">${esc(o.title)}</div><div class="sky b tsub2">${esc(o.sub)}</div><div class="soft tsub3">${esc(o.meta)}</div></div><img src="${esc(o.img)}" alt=""></div>`;
+    return `<div class="center-wrap"><img class="cheers sm" src="img/cheers.png" alt=""><div class="huge">${esc(o.title)}</div><div class="sky b tsub2">${esc(o.sub)}</div><div class="soft tsub3">${esc(o.meta)}</div></div>`;
+  };
 
   S.spare = ({ quiz, item, state }) => {
     const sp = quiz.spare[item.idx];

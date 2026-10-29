@@ -271,7 +271,8 @@
         <div class="grid2">${fld('Platz 1', 'intro.awards.first', I.awards.first)}${fld('Platz 2', 'intro.awards.second', I.awards.second)}</div>
         <div class="grid2">${fld('Platz 3', 'intro.awards.third', I.awards.third)}${fld('Sonderpreis (letzter Platz)', 'intro.awards.special', I.awards.special)}</div>
         <div class="sub">Danke-Folie</div>
-        <div class="grid2">${fld('Titel', 'intro.outro.title', I.outro.title)}${fld('Untertitel', 'intro.outro.sub', I.outro.sub)}</div>${fld('Zeile darunter', 'intro.outro.meta', I.outro.meta)}`;
+        <div class="grid2">${fld('Titel', 'intro.outro.title', I.outro.title)}${fld('Untertitel', 'intro.outro.sub', I.outro.sub)}</div>${fld('Zeile darunter', 'intro.outro.meta', I.outro.meta)}
+        <div class="sub">Bild auf der Danke-Folie (z. B. QR-Code, optional)</div><div class="imgrow">${I.outro.img ? `<img src="${esc(I.outro.img)}" alt="">` : '<div class="noimg">kein Bild</div>'}<div><label class="btn sm pri">Bild hochladen<input type="file" accept="image/*" data-a="outroImg" hidden></label>${I.outro.img ? btn('outroDel', 'Bild entfernen', 'ghost') : ''}</div></div>`;
     }
     if (sel.k === 'round') return `<h3>RUNDE ${t.no}</h3>${ws}${fld('Name', 'name', t.name)}${fld('Untertitel', 'sub', t.sub)}
       <div class="small">${qsInRound(t.no).length} Fragen. Fragen per Drag & Drop oder mit ↑↓ verschieben.</div>${tools(btn('addQ', '+ Frage in dieser Runde'))}`;
@@ -450,6 +451,7 @@
     if (a === 'ordL' && i > 0) { arrMove(t.orderIdx, i, i - 1); return changed(); }
     if (a === 'ordR' && i < t.orderIdx.length - 1) { arrMove(t.orderIdx, i, i + 1); return changed(); }
     if (a === 'ordSort') { t.orderIdx = QM.sortByValue(t.items); return changed(); }
+    if (a === 'outroDel') { delete Q.intro.outro.img; return changed(); }
     if (a === 'eilAdd') { Q.intro.eil.push(['', '']); return changed(); }
     if (a === 'eilDel') { Q.intro.eil.splice(i, 1); return changed(); }
     // Sets
@@ -485,6 +487,10 @@
     if (el.dataset.a === 'type') { changeType(el.value); return changed(); }
     if (el.dataset.a === 'round') { moveQuestion(target().id, Number(el.value)); return changed(); }
     if (el.dataset.a === 'cardType') { const old = target(); const n = QM.newCard(el.value, old.pts); n.id = old.id; n.answer = old.answer; if (old.q && n.q != null) n.q = old.q; Q.buzzer[sel.ci].cards[sel.i] = n; return changed(); }
+    if (el.dataset.a === 'outroImg' && el.files[0]) {
+      try { const data = await readImage(el.files[0]); const r = await api('upload', { data }); Q.intro.outro.img = r.url; changed(); toast('Bild hochgeladen ✓'); } catch (err) { toast(err.message, true); }
+      return;
+    }
     if (el.dataset.a === 'img' && el.files[0]) {
       try { const data = await readImage(el.files[0]); const r = await api('upload', { data }); target().img = r.url; changed(); toast('Bild hochgeladen ✓'); } catch (err) { toast(err.message, true); }
       return;

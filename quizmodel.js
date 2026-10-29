@@ -60,6 +60,7 @@
     out.intro.teamIdeas = (Array.isArray(si.teamIdeas) ? si.teamIdeas : []).map(str).filter(Boolean);
     ['first', 'second', 'third', 'special'].forEach((k) => { out.intro.awards[k] = str((si.awards || {})[k]) || out.intro.awards[k]; });
     ['title', 'sub', 'meta'].forEach((k) => { out.intro.outro[k] = str((si.outro || {})[k]) || (k === 'title' ? out.intro.outro.title : ''); });
+    if (str((si.outro || {}).img)) out.intro.outro.img = str(si.outro.img); // Bild auf der Danke-Folie, z. B. QR-Code
 
     // Runden: neu durchnummerieren, alte Nummern merken
     const rIn = Array.isArray(src.rounds) && src.rounds.length ? src.rounds : [{ no: 1, name: 'Runde 1' }];

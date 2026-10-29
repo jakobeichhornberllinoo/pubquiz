@@ -283,6 +283,20 @@ body { font-family: var(--body); color: #fff; }
 .spare .ans { top: 470px; }
 
 /* ================= v2: Show-Effekte ================= */
+/* Danke-Folie mit eigenem Bild (z. B. QR-Code) */
+.thanks-img { position: absolute; inset: 0; display: flex; align-items: center; gap: 70px; padding: 0 110px 60px; }
+.thanks-img .ti-text { flex: 1; min-width: 0; }
+.thanks-img .huge { font-size: 92px; line-height: 1.05; margin: 0; }
+.thanks-img img { width: 600px; max-height: 640px; object-fit: contain; border-radius: 24px; background: #fff; padding: 18px; box-shadow: 0 0 0 10px rgba(240,77,184,.35); }
+/* Buzzer-Board mit mehr als 3 Karten je Spalte */
+.board.compact { top: 270px; gap: 22px; }
+.board.compact .bcol { gap: 10px; }
+.board.compact .bhead { height: 76px; }
+.board.compact .bhead .circ { width: 50px; height: 50px; font-size: 24px; }
+.board.compact .bcard { height: 64px; }
+.board.compact .bcard b { font-size: 36px; }
+.board.compact .bcard.used { flex-direction: row; gap: 10px; }
+
 /* Online: Raum-Code unter dem QR-Code */
 .qcode { margin-top: 4px; color: var(--navy); font-size: 26px; font-weight: bold; letter-spacing: 2px; }
 .qcode b { font-family: var(--head); font-weight: normal; color: var(--mag); font-size: 46px; letter-spacing: 8px; margin-left: 10px; }
